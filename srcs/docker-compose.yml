@@ -1,0 +1,100 @@
+version: '3'
+
+services: 
+  nginx:
+    restart: unless-stopped
+    env_file: 
+      - .env
+    networks: 
+      - connect
+    depends_on:
+      - wordpress
+    build: requirements/nginx/
+    image: nginx
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - wp-data:/www
+
+  wordpress:
+    restart: unless-stopped
+    env_file: 
+      - .env
+    networks: 
+      - connect
+    depends_on:
+      - mariadb
+      - redis
+    build: requirements/wordpress/
+    image: wordpress
+    volumes:
+      - wp-data:/www
+
+  mariadb:
+    restart: unless-stopped
+    env_file: 
+      - .env
+    networks: 
+      - connect
+    build: requirements/mariadb/
+    image: mariadb
+    volumes: 
+      - mdb-data:/var/lib/mysql
+  
+  adminer:
+    restart: unless-stopped
+    env_file: 
+      - .env
+    networks: 
+      - connect
+    ports:
+      - "5555:5555"
+    build: requirements/bonus/adminer/
+    image: adminer
+
+  ftp:
+    build: requirements/bonus/ftp/
+    restart: unless-stopped
+    image: ftp
+    env_file:
+        - .env
+    volumes:
+        - wp-data:/home/user
+    ports:
+        - "21:21"
+        - "21000:21000"
+
+  redis:
+      build: requirements/bonus/redis/
+      image: redis
+      restart: unless-stopped
+      networks:
+        - connect
+
+  website:
+    restart: unless-stopped
+    env_file:
+      - .env
+    build: requirements/bonus/website/
+    image: website
+    ports:
+      - "9999:9999"
+
+volumes:
+    wp-data:
+      driver: local
+      driver_opts:
+          type: none
+          device: "/home/abkssiba/data/wp-data"
+          o: bind
+    mdb-data:
+      driver: local
+      driver_opts:
+        type: none
+        device: "/home/abkssiba/data/db-data"
+        o: bind
+
+networks:
+  connect:
+    driver: bridge
