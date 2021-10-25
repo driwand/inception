@@ -60,10 +60,12 @@ services:
     env_file:
         - .env
     volumes:
-        - wp-data:/home/user
+        - wp-data:/home/abkssiba
     ports:
         - "21:21"
-        - "21000:21000"
+        - "10000:10000"
+    networks: 
+      - connect
 
   redis:
       build: requirements/bonus/redis/

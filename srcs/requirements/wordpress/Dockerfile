@@ -12,7 +12,6 @@ RUN sed -i 's/group = nobody/group = root/g'  /etc/php/7.3/fpm/pool.d/www.conf
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/local/bin/wp
 RUN chmod +x /usr/local/bin/wp
-RUN wp core download --allow-root
 
 RUN service php7.3-fpm start
 COPY tools/start.sh /
