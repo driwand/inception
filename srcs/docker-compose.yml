@@ -17,6 +17,22 @@ services:
     volumes:
       - wp-data:/www
 
+  ftp:
+    build: requirements/bonus/ftp/
+    restart: unless-stopped
+    image: ftp
+    env_file:
+        - .env
+    volumes:
+        - wp-data:/home/abkssiba
+    ports:
+        - "21:21"
+        - "10000:10000"
+    depends_on:
+      - wordpress
+    networks: 
+      - connect
+
   wordpress:
     restart: unless-stopped
     env_file: 
@@ -52,20 +68,6 @@ services:
       - "5555:5555"
     build: requirements/bonus/adminer/
     image: adminer
-
-  ftp:
-    build: requirements/bonus/ftp/
-    restart: unless-stopped
-    image: ftp
-    env_file:
-        - .env
-    volumes:
-        - wp-data:/home/abkssiba
-    ports:
-        - "21:21"
-        - "10000:10000"
-    networks: 
-      - connect
 
   redis:
       build: requirements/bonus/redis/

@@ -10,6 +10,7 @@ if [ ! -f "/www/wp-config.php" ]; then
 fi
 
 wp core install --url="${DOMAIN_NAME}" --title="$WP_TITLE" --admin_user="$WP_ADMIN" --admin_password="$WP_ADMIN_PASS" --admin_email="$WP_ADMIN_EMAIL" --path="/www" --allow-root
+
 wp plugin install redis-cache --path="/www" --activate --allow-root
 cp /www/wp-content/plugins/redis-cache/includes/object-cache.php /www/wp-content
 
