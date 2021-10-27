@@ -1,7 +1,7 @@
 
 if [ ! -f "/www/wp-config.php" ]; then
 	wp core download --allow-root
-	wp config create --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASS" --dbhost=$DB_HOST --path="/www" --dbprefix=wp_ --allow-root
+	wp config create --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASS" --dbhost="$DB_HOST" --path="/www" --dbprefix=wp_ --allow-root
 	wp config set WP_REDIS_HOST 'redis' --path="/www" --allow-root
 	wp config set WP_REDIS_PORT 6379 --path="/www" --allow-root
 	wp config set WP_REDIS_TIMEOUT 1 --path="/www" --allow-root
