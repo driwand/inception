@@ -7,6 +7,7 @@ up: build
 build:
 	mkdir -p /home/${VM_NAME}/data/db-data
 	mkdir -p /home/${VM_NAME}/data/wp-data
+	mkdir -p /home/${VM_NAME}/data/backup-data
 	cd srcs && docker-compose build
 
 down:
