@@ -60,7 +60,7 @@ services:
     build: requirements/mariadb/
     image: mariadb
     volumes: 
-      - mdb-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
   
   adminer:
     container_name: adminer
@@ -92,6 +92,18 @@ services:
     ports:
       - "9999:9999"
 
+  backup:
+    container_name: backup
+    image: backup
+    restart: unless-stopped
+    depends_on:
+        - wordpress
+    build: requirements/bonus/backup/
+    volumes:
+        - backup-data:/backup
+        - wp-data:/wp-data
+        - db-data:/db-data
+
 volumes:
     wp-data:
       driver: local
@@ -99,12 +111,18 @@ volumes:
           type: none
           device: "/home/abkssiba/data/wp-data"
           o: bind
-    mdb-data:
+    db-data:
       driver: local
       driver_opts:
         type: none
         device: "/home/abkssiba/data/db-data"
         o: bind
+    backup-data:
+      driver: local
+      driver_opts:
+        type: none
+        device: "/home/abkssiba/data/backup-data"
+        o: bind 
 
 networks:
   connect:
