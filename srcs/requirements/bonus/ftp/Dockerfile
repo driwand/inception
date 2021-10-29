@@ -9,4 +9,4 @@ RUN yes "" | openssl req -x509 -nodes -days 365 -newkey rsa:2048\
 
 COPY conf/vsftpd.conf /etc
 
-ENTRYPOINT [ "sh", "start.sh" ]
+CMD sh /start.sh && vsftpd

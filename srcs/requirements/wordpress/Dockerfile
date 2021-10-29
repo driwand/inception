@@ -22,4 +22,4 @@ RUN service php7.3-fpm start
 COPY tools/start.sh /
 COPY conf/wp-config.php /
 
-ENTRYPOINT [ "sh", "/start.sh" ]
+CMD sh /start.sh && php-fpm7.3 -FR
